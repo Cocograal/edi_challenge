@@ -1,0 +1,10 @@
+{
+  "name": "John Doe Badge",
+  "description": "Completed the Polygon Badge Project",
+  "image": "https://zupimages.net/up/26/13/pwf6.png",
+  "attributes": [
+    { "trait_type": "Project", "value": "NFT Generator" },
+    { "trait_type": "Start Date", "value": "2026-03-28" },
+    { "trait_type": "Completion Date", "value": "2026-04-05" }
+  ]
+}

@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import Form from "../components/Form";
+import Form, { FormFields } from "../components/Form";
+
 import BadgePreview from "../components/BadgePreview";
 
 
 export default function Home() {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormFields>({
     firstName: "",
     lastName: "",
     project: "",

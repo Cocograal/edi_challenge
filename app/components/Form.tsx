@@ -1,6 +1,6 @@
 "use client";
 
-type FormData = {
+export type FormFields = {
   firstName: string;
   lastName: string;
   project: string;
@@ -15,10 +15,10 @@ export default function Form({
   form,
   setForm,
 }: {
-  form: FormData;
-  setForm: (data: FormData) => void;
+  form: FormFields;
+  setForm: React.Dispatch<React.SetStateAction<FormFields>>;
 }) {
-  const update = (field: keyof FormData, value: string) => {
+  const update = (field: keyof FormFields, value: string) => {
     setForm({ ...form, [field]: value });
   };
 
@@ -51,7 +51,7 @@ export default function Form({
           value={form.startDate}
           onChange={(e) => {
             const start = e.target.value;
-            setForm((prevForm: FormData) => {
+            setForm(prevForm => {
               const newEndDate = !prevForm.endDate || prevForm.endDate <= start ? start : prevForm.endDate;
 
               return { ...prevForm, startDate: start, endDate: newEndDate };

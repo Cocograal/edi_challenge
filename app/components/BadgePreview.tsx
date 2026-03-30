@@ -4,7 +4,7 @@ export default function BadgePreview({ data }: any) {
   return (
     <div
       id="badge-preview"
-      className="w-[420px] h-[260px] rounded-2xl p-6 text-white shadow-xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 flex flex-col justify-between"
+      className="w-[400px] h-[400px] rounded-2xl p-6 text-white shadow-xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 flex flex-col justify-between"
     >
       <div>
         <h2 className="text-xl font-bold">
@@ -27,7 +27,8 @@ export default function BadgePreview({ data }: any) {
 
         {data.image && (
           <img
-            src={data.image}
+            // src={data.image}
+            src={`/api/image-proxy?url=${encodeURIComponent(data.image)}`}
             className="w-14 h-14 rounded-full object-cover border"
           />
         )}

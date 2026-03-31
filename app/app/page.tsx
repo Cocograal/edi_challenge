@@ -10,7 +10,10 @@ import Modal from "../components/Modal";
 export default function Home() {
   const [modal, setModal] = useState<string | null>(null);
 
-  const [form, setForm] = useState<FormFields>({
+  const isValidWalletAddress = (address: string) =>
+    /^0x[a-fA-F0-9]{40}$/.test(address);
+
+  const defaultForm = {
     firstName: "",
     lastName: "",
     project: "",
@@ -19,7 +22,9 @@ export default function Home() {
     details: "",
     image: "",
     wallet: "",
-  });
+  };
+
+  const [form, setForm] = useState<FormFields>(defaultForm);
 
   async function handleMint() {
     const node = document.getElementById("badge-border");
@@ -28,6 +33,17 @@ export default function Home() {
 
     if (hasEmpty) {
       setModal("Missing fields");
+      return;
+    }
+
+    const imageCheckRes = await fetch(`/api/image-proxy?url=${encodeURIComponent(form.image)}`);
+    if (!imageCheckRes.ok) {
+      setModal("Invalid image URL — please check the link and try again.");
+      return;
+    }
+
+    if (!isValidWalletAddress(form.wallet)) {
+      setModal("Invalid wallet address.");
       return;
     }
 
@@ -64,6 +80,7 @@ export default function Home() {
 
     if (data.success) {
       setModal(`Minted! Tx: ${data.txHash}`);
+      setForm({ ...defaultForm });
     } else {
       setModal("Mint failed");
       // setModal(data.error);
@@ -72,7 +89,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen p-10 bg-zinc-900">
-        {modal && <Modal message={modal} onClose={() => setModal(null)} />}
+      {modal && <Modal message={modal} onClose={() => setModal(null)} />}
       <h1 className="text-3xl text-white font-bold mb-8">NFT Badge Generator</h1>
       <div className="grid grid-cols-2 gap-10">
         <div className="flex flex-col items-center">

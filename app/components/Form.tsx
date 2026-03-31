@@ -27,6 +27,7 @@ export default function Form({
       <input
         className="input"
         placeholder="First Name"
+        value={form.firstName}
         onChange={(e) => update("firstName", e.target.value)}
         maxLength={12}
       />
@@ -34,11 +35,13 @@ export default function Form({
       <input
         className="input"
         placeholder="Last Name"
+        value={form.lastName}
         onChange={(e) => update("lastName", e.target.value)}
         maxLength={12}
       />
       <input className="input"
         placeholder="Project"
+        value={form.project}
         onChange={(e) => update("project", e.target.value)}
         maxLength={40}
       />
@@ -78,13 +81,20 @@ export default function Form({
       <textarea
         className="input"
         placeholder="Details"
+        value={form.details}
         onChange={(e) => update("details", e.target.value)}
         maxLength={100}
       />
 
-      <input className="input" placeholder="Image URL" onChange={(e) => update("image", e.target.value)} />
+      <input className="input"
+        placeholder="Image URL"
+        value={form.image}
+        onChange={(e) => update("image", e.target.value)} />
 
-      <input className="input" placeholder="Recipient Wallet" onChange={(e) => update("wallet", e.target.value)} />
+      <input className="input"
+        placeholder="Recipient Wallet"
+        value={form.wallet}
+        onChange={(e) => update("wallet", e.target.value)} />
     </div>
   );
 }

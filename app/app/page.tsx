@@ -4,9 +4,12 @@ import { useState } from "react";
 import Form, { FormFields } from "../components/Form";
 
 import BadgePreview from "../components/BadgePreview";
+import Modal from "../components/Modal";
 
 
 export default function Home() {
+  const [modal, setModal] = useState<string | null>(null);
+
   const [form, setForm] = useState<FormFields>({
     firstName: "",
     lastName: "",
@@ -24,7 +27,7 @@ export default function Home() {
       (value) => value === "" || value === null || value === undefined);
 
     if (hasEmpty) {
-      alert("Missing fields");
+      setModal("Missing fields");
       return;
     }
 
@@ -44,9 +47,9 @@ export default function Home() {
 
     const data_upload = await uploadRes.json();
     if (data_upload.success) {
-      // alert(`Uploaded to Pinata\nimg_url: ${data_upload.imageUrl}`)
+      // setModal(`Uploaded to Pinata\nimg_url: ${data_upload.imageUrl}`)
     } else {
-      // alert(data_upload.error);
+      // setModal(data_upload.error);
       return;
     }
 
@@ -60,15 +63,16 @@ export default function Home() {
     const data = await res.json();
 
     if (data.success) {
-      alert(`Minted! Tx: ${data.txHash}`);
+      setModal(`Minted! Tx: ${data.txHash}`);
     } else {
-      alert("Mint failed");
-      // alert(data.error);
+      setModal("Mint failed");
+      // setModal(data.error);
     }
   }
 
   return (
     <main className="min-h-screen p-10 bg-zinc-900">
+        {modal && <Modal message={modal} onClose={() => setModal(null)} />}
       <h1 className="text-3xl text-white font-bold mb-8">NFT Badge Generator</h1>
       <div className="grid grid-cols-2 gap-10">
         <div className="flex flex-col items-center">

@@ -94,8 +94,42 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen p-10 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.35),_transparent_25%),radial-gradient(circle_at_bottom_right,_rgba(173,216,255,0.25),_transparent_20%),linear-gradient(135deg,#cfe9ff_0%,#7ba7ff_40%,#4c63d2_100%)] relative overflow-hidden">      {modal && <Modal message={modal} onClose={() => setModal(null)} />}
+    // <main className="min-h-screen p-10 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.35),_transparent_25%),radial-gradient(circle_at_bottom_right,_rgba(173,216,255,0.25),_transparent_20%),linear-gradient(135deg,#cfe9ff_0%,#7ba7ff_40%,#4c63d2_100%)] relative overflow-hidden">      
+    <main className="min-h-screen p-10 bg-[radial-gradient(circle_at_top_left,_#0d0d2b,_transparent_40%),radial-gradient(circle_at_bottom_right,_#1a1a40,_transparent_35%),linear-gradient(135deg,#0f0c29_0%,#302b63_70%,#24243e_100%)] relative overflow-hidden">
+      {modal && <Modal message={modal} onClose={() => setModal(null)} />}
+      {/* Orbit lines */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute w-[1400px] h-[1400px] border border-white/15 rounded-full top-[-500px] left-[-500px] animate-[spin_90s_linear_infinite]" />
+        <div className="absolute w-[1100px] h-[1100px] border border-cyan-300/15 rounded-full top-[-200px] right-[-350px] animate-[spin_70s_linear_infinite_reverse]" />
+        <div className="absolute w-[900px] h-[900px] border border-indigo-300/15 rounded-full bottom-[-300px] left-[-200px] animate-[spin-reverse_70s_linear_infinite]" />
+        <div className="absolute w-[700px] h-[700px] border border-white/10 rounded-full bottom-[-150px] right-[10%] animate-[spin_60s_linear_infinite_reverse]" />
+        {/* Elliptical orbit rings */}
+        <div className="absolute w-[1200px] h-[500px] border border-white/15 rounded-full rotate-[-18deg] top-[5%] left-[-15%] animate-[spin_100s_linear_infinite]" />
+        <div className="absolute w-[1000px] h-[400px] border border-cyan-200/15 rounded-full rotate-[22deg] top-[30%] right-[-1%] animate-[spin_85s_linear_infinite_reverse]" />
+        <div className="absolute w-[900px] h-[350px] border border-indigo-200/15 rounded-full rotate-[12deg] bottom-[10%] left-[15%] animate-[spin_75s_linear_infinite]" />
 
+        {/* Triangles */}
+        <div
+          className="absolute w-[500px] h-[500px] top-[45%] right-[15%] animate-[spin_100s_linear_infinite]"
+          style={{
+            clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
+            background: "rgba(255,255,255,0.02)",
+          }}
+        />
+        <div
+          className="absolute w-[500px] h-[500px] top-[20%] right-[40%] animate-[spin_100s_linear_infinite]"
+          style={{
+            clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
+            background: "rgba(255,255,255,0.02)",
+          }}
+        /><div
+          className="absolute w-[500px] h-[500px] top-[30%] right-[80%] animate-[spin_100s_linear_infinite]"
+          style={{
+            clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
+            background: "rgba(255,255,255,0.02)",
+          }}
+        />
+      </div>
       <h1 className="text-5xl font-bold text-white text-center mb-10 drop-shadow-[0_2px_10px_rgba(255,255,255,0.35)]">
         NFT Badge Generator
       </h1>      <div className="grid grid-cols-2 gap-10">
@@ -135,9 +169,9 @@ export default function Home() {
           </h2>
 
           {/* Glass panel wrapping only the badge */}
-          <div className="w-full rounded-[32px] border border-white/30 bg-white/10 backdrop-blur-2xl shadow-[0_8px_40px_rgba(31,38,135,0.25)] p-8 relative overflow-hidden flex justify-center items-center min-h-[540px]">
+          <div className="w-[560px] h-[560px] rounded-[32px] border border-white/30 bg-white/10 backdrop-blur-2xl shadow-[0_8px_40px_rgba(31,38,135,0.25)] p-8 relative overflow-hidden flex justify-center items-center">
             <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/5 to-transparent pointer-events-none" />
-            <div className="relative z-10">
+            <div className="relative z-10 scale-120">
               <BadgePreview data={form} />
             </div>
           </div>

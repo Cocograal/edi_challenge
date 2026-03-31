@@ -36,3 +36,12 @@ body {
 textarea.input {
   @apply min-h-[100px] resize-none;
 }
+
+@keyframes spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}

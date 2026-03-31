@@ -19,13 +19,13 @@ export default function Home() {
   });
 
   async function handleMint() {
-    const node = document.getElementById("badge-preview");
+    const node = document.getElementById("badge-border");
     const hasEmpty = Object.values(form).some(
       (value) => value === "" || value === null || value === undefined);
 
     if (hasEmpty) {
       alert("Missing fields");
-      return; // stop execution
+      return;
     }
 
     if (!node) return;

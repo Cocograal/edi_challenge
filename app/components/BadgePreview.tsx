@@ -39,7 +39,13 @@ export default function BadgePreview({ data }: any) {
         </div>
 
         <div className="flex text-xs font-bold justify-end opacity-80 h-[20px] items-center">
-          {data.startDate || "Start"} → {data.endDate || "End"}
+          {data.startDate
+            ? new Date(data.startDate).toLocaleDateString('de-CH')
+            : "Start"}
+          {" → "}
+          {data.endDate
+            ? new Date(data.endDate).toLocaleDateString('de-CH')
+            : "End"}
         </div>
 
         <div className="h-[48px] overflow-hidden">

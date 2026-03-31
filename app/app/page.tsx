@@ -65,7 +65,7 @@ export default function Home() {
     if (data_upload.success) {
       // setModal(`Uploaded to Pinata\nimg_url: ${data_upload.imageUrl}`)
     } else {
-      // setModal(data_upload.error);
+      setModal(`Upload to Pinata failed`)
       return;
     }
 

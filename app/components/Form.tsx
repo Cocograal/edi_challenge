@@ -83,7 +83,7 @@ export default function Form({
         placeholder="Details"
         value={form.details}
         onChange={(e) => update("details", e.target.value)}
-        maxLength={100}
+        maxLength={60}
       />
 
       <input className="input"

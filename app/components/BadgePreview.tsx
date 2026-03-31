@@ -4,18 +4,23 @@ export default function BadgePreview({ data }: any) {
     <div
       id="badge-border"
       className="w-[420px] h-[420px] p-[10px] rounded-[28px] 
-      bg-gradient-to-br from-yellow-200 via-yellow-400 to-yellow-600 shadow-2xl"
-    >
+      bg-gradient-to-br from-gray-300 via-gray-100 to-gray-400"
+      >
       <div
         id="badge-preview"
-        className="relative w-full h-full rounded-2xl p-6 text-white
-                   shadow-inner bg-gradient-to-br from-slate-950 
-                   via-blue-950 to-slate-900 grid grid-rows-[88px_1fr_20px_48px] gap-0"
+        className="relative w-full h-full rounded-2xl p-6 text-[#1E293B]
+             shadow-inner grid grid-rows-[88px_1fr_20px_48px] gap-0
+             bg-cover bg-center bg-no-repeat font-sans"
+        style={{
+          backgroundImage: `url('/clouds.png')`,
+          backdropFilter: 'blur(10px)',
+          backgroundBlendMode: 'overlay',
+        }}
       >
         <img
           src="/tree.png"
           alt="Logo"
-          className="absolute inset-0 w-full h-full opacity-10 z-0 scale-100"
+          className="absolute inset-0 w-full h-full opacity-30 -z-1 scale-100"
         />
 
         <div className="min-h-[72px]">
@@ -38,7 +43,7 @@ export default function BadgePreview({ data }: any) {
           />
         </div>
 
-        <div className="flex text-xs font-bold justify-end opacity-80 h-[20px] items-center">
+        <div className="flex text-xs font-bold justify-end h-[20px] items-center">
           {data.startDate
             ? new Date(data.startDate).toLocaleDateString('de-CH')
             : "Start"}
@@ -48,8 +53,8 @@ export default function BadgePreview({ data }: any) {
             : "End"}
         </div>
 
-        <div className="h-[48px] overflow-hidden">
-          <p className="text-xs w-2/3 line-clamp-3">
+        <div className="h-[70px] overflow-hidden">
+          <p className=" w-5/6 font-bold  text-lg">
             {data.details || "Project details will appear here..."}
           </p>
         </div>

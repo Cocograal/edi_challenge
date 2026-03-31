@@ -94,19 +94,25 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen p-10 bg-zinc-900">
-      {modal && <Modal message={modal} onClose={() => setModal(null)} />}
-      <h1 className="text-3xl text-white font-bold mb-8">NFT Badge Generator</h1>
-      <div className="grid grid-cols-2 gap-10">
+    <main className="min-h-screen p-10 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.35),_transparent_25%),radial-gradient(circle_at_bottom_right,_rgba(173,216,255,0.25),_transparent_20%),linear-gradient(135deg,#cfe9ff_0%,#7ba7ff_40%,#4c63d2_100%)] relative overflow-hidden">      {modal && <Modal message={modal} onClose={() => setModal(null)} />}
+
+      <h1 className="text-5xl font-bold text-white text-center mb-10 drop-shadow-[0_2px_10px_rgba(255,255,255,0.35)]">
+        NFT Badge Generator
+      </h1>      <div className="grid grid-cols-2 gap-10">
         <div className="flex flex-col items-center">
-          <h1 className="text-2xl font-bold mb-4 text-white">Badge Specs</h1>
-          <div className="bg-white p-6 rounded-xl shadow">
-            <Form form={form} setForm={setForm} />
+          <h2 className="text-3xl font-semibold text-white/90 mb-6 tracking-wide">
+            Badge Specs
+          </h2>
+          <div className="w-full max-w-2xl rounded-[32px] border border-white/30 bg-white/10 backdrop-blur-2xl shadow-[0_8px_40px_rgba(31,38,135,0.25)] p-8 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-white/10 to-transparent pointer-events-none" />
+            <div className="relative z-10">
+              <Form form={form} setForm={setForm} />
+            </div>
           </div>
           <button
             onClick={handleMint}
             disabled={loading}
-            className="mt-4 bg-zinc-700 text-white px-5 py-2.5 rounded-xl shadow-md hover:bg-gray-800 hover:shadow-lg active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-6 px-8 py-3 rounded-[20px] border border-cyan-200/40 bg-gradient-to-r from-sky-300/70 via-cyan-200/60 to-blue-300/70 backdrop-blur-xl text-slate-800 font-bold tracking-wide shadow-[0_8px_30px_rgba(120,180,255,0.45)] hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(120,180,255,0.55)] active:scale-95 transition-all duration-300 disabled:opacity-50"
           >
             {loading ? (
               <span className="flex items-center gap-2">
@@ -121,9 +127,20 @@ export default function Home() {
             )}
           </button>
         </div>
-        <div className="flex flex-col items-center">
-          <h1 className="text-2xl font-bold mb-4 text-white">Badge Preview</h1>
-          <BadgePreview data={form} />
+
+        <div className="w-full max-w-xl mx-auto">
+          {/* Header outside the glass panel */}
+          <h2 className="text-3xl font-semibold text-white/90 mb-6 text-center tracking-wide">
+            Badge Preview
+          </h2>
+
+          {/* Glass panel wrapping only the badge */}
+          <div className="w-full rounded-[32px] border border-white/30 bg-white/10 backdrop-blur-2xl shadow-[0_8px_40px_rgba(31,38,135,0.25)] p-8 relative overflow-hidden flex justify-center items-center min-h-[540px]">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/5 to-transparent pointer-events-none" />
+            <div className="relative z-10">
+              <BadgePreview data={form} />
+            </div>
+          </div>
         </div>
       </div>
     </main>

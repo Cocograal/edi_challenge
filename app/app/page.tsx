@@ -9,7 +9,7 @@ import Modal from "../components/Modal";
 
 export default function Home() {
   const [modal, setModal] = useState<string | null>(null);
-
+  const [loading, setLoading] = useState(false);
   const isValidWalletAddress = (address: string) =>
     /^0x[a-fA-F0-9]{40}$/.test(address);
 
@@ -27,64 +27,70 @@ export default function Home() {
   const [form, setForm] = useState<FormFields>(defaultForm);
 
   async function handleMint() {
-    const node = document.getElementById("badge-border");
-    const hasEmpty = Object.values(form).some(
-      (value) => value === "" || value === null || value === undefined);
+    setLoading(true);
+    try {
+      const node = document.getElementById("badge-border");
+      const hasEmpty = Object.values(form).some(
+        (value) => value === "" || value === null || value === undefined);
 
-    if (hasEmpty) {
-      setModal("Missing fields");
-      return;
+      if (hasEmpty) {
+        setModal("Missing fields");
+        return;
+      }
+
+      const imageCheckRes = await fetch(`/api/image-proxy?url=${encodeURIComponent(form.image)}`);
+      if (!imageCheckRes.ok) {
+        setModal("Invalid image URL — please check the link and try again.");
+        return;
+      }
+
+      if (!isValidWalletAddress(form.wallet)) {
+        setModal("Invalid wallet address.");
+        return;
+      }
+
+      if (!node) return;
+      const { toPng } = await import("html-to-image");
+      const image = await toPng(node, { skipFonts: true });
+
+      const uploadRes = await fetch("/api/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.project,
+          description: form.details,
+          image, // data URL
+        }),
+      });
+
+      const data_upload = await uploadRes.json();
+      if (data_upload.success) {
+        // setModal(`Uploaded to Pinata\nimg_url: ${data_upload.imageUrl}`)
+      } else {
+        setModal(`Upload to Pinata failed`)
+        return;
+      }
+
+      const res = await fetch("/api/mint", {
+        method: "POST",
+        body: JSON.stringify({
+          form,
+          imageUrl: data_upload.imageUrl,
+        }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setModal(`Minted! Tx: ${data.txHash}`);
+        setForm({ ...defaultForm });
+      } else {
+        setModal("Mint failed");
+        // setModal(data.error);
+      }
+    } finally {
+      setLoading(false)
     }
 
-    const imageCheckRes = await fetch(`/api/image-proxy?url=${encodeURIComponent(form.image)}`);
-    if (!imageCheckRes.ok) {
-      setModal("Invalid image URL — please check the link and try again.");
-      return;
-    }
-
-    if (!isValidWalletAddress(form.wallet)) {
-      setModal("Invalid wallet address.");
-      return;
-    }
-
-    if (!node) return;
-    const { toPng } = await import("html-to-image");
-    const image = await toPng(node, { skipFonts: true });
-
-    const uploadRes = await fetch("/api/upload", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: form.project,
-        description: form.details,
-        image, // data URL
-      }),
-    });
-
-    const data_upload = await uploadRes.json();
-    if (data_upload.success) {
-      // setModal(`Uploaded to Pinata\nimg_url: ${data_upload.imageUrl}`)
-    } else {
-      setModal(`Upload to Pinata failed`)
-      return;
-    }
-
-    const res = await fetch("/api/mint", {
-      method: "POST",
-      body: JSON.stringify({
-        form,
-        imageUrl: data_upload.imageUrl,
-      }),
-    });
-    const data = await res.json();
-
-    if (data.success) {
-      setModal(`Minted! Tx: ${data.txHash}`);
-      setForm({ ...defaultForm });
-    } else {
-      setModal("Mint failed");
-      // setModal(data.error);
-    }
   }
 
   return (
@@ -99,9 +105,20 @@ export default function Home() {
           </div>
           <button
             onClick={handleMint}
-            className="mt-4 bg-zinc-700 text-white px-5 py-2.5 rounded-xl shadow-md hover:bg-gray-800 hover:shadow-lg active:scale-95 transition-all duration-200"
+            disabled={loading}
+            className="mt-4 bg-zinc-700 text-white px-5 py-2.5 rounded-xl shadow-md hover:bg-gray-800 hover:shadow-lg active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Mint Badge
+            {loading ? (
+              <span className="flex items-center gap-2">
+                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                </svg>
+                Minting...
+              </span>
+            ) : (
+              "Mint Badge"
+            )}
           </button>
         </div>
         <div className="flex flex-col items-center">
